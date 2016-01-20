@@ -45,9 +45,16 @@ module Postmark
 
         # Ignore the first two lines.
         report_text.split(/\n/)[2..-1].each do |line|
-          rule, description = line[5..-1].strip.split(/\s{2,}/, 2).map(&:strip)
+          tmp_line = line[5..-1]
 
-          if description
+          # make sure we actually have a line we can split
+          if tmp_line
+            rule, description = tmp_line.strip.split(/\s{2,}/, 2).map(&:strip)
+          end
+
+          if tmp_line.nil? && last_rule
+            last_rule[:description] << " #{line}"
+          elsif description
             points = line[0..3].strip.to_f
             last_rule = { points: points, rule: rule, description: description }
             @details << last_rule
@@ -58,9 +65,14 @@ module Postmark
             last_rule[:description] << " #{rule}"
           end
         end
+
+        if last_rule.nil?
+          @error = "Unable to parse results"
+        end
       rescue StandardError => error
         @error = error.message
       end
+
     end
   end
 end

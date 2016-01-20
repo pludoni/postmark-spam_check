@@ -1,0 +1,16 @@
+ pts rule name               description
+---- ---------------------- --------------------------------------------------
+ 0.0 URIBL_BLOCKED          ADMINISTRATOR NOTICE: The query to URIBL was blocked.
+                            See
+                            http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+                             for more information.
+                            [URIs: google.com]
+-0.0 NO_RELAYS              Informational: message was not relayed via SMTP
+ 0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in digit
+                            (pretendemailaddress16[at]aol.com
+)
+ 0.0 HTML_MESSAGE           BODY: HTML included in message
+ 1.1 MIME_HTML_ONLY         BODY: Message only has text/html MIME parts
+-0.0 NO_RECEIVED            Informational: message has no Received headers
+ 2.5 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+ 3.8 RCVD_REMOVED           Headers removed

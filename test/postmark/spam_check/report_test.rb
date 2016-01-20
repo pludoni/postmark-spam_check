@@ -44,4 +44,14 @@ class Postmark::SpamCheck::ReportTest < Minitest::Test
     report = Postmark::SpamCheck::Report.new("raw email")
     assert_equal "raw email", report.email
   end
+
+  def test_format_errors
+    path = File.join(File.dirname(__FILE__), "../../fixtures/dangling-parentheses.txt")
+    report = Postmark::SpamCheck::Report.new("raw email")
+    report.load_results('success' => true, 'score' => '1.2', 'report' => File.read(path))
+
+    assert_equal report.score, '1.2'
+    refute_empty report.details
+    assert_nil report.error
+  end
 end
