@@ -8,7 +8,7 @@ require 'uri'
 module Postmark
   module SpamCheck
     class Client
-      SPAM_CHECK_URI = "http://spamcheck.postmarkapp.com/filter"
+      SPAM_CHECK_URI = "https://spamcheck.postmarkapp.com/filter"
 
       def initialize(timeout = 60)
         @timeout = timeout
@@ -33,6 +33,7 @@ module Postmark
         uri = URI.parse(SPAM_CHECK_URI)
         http = Net::HTTP.new(uri.host, uri.port)
         http.read_timeout = @timeout
+        http.use_ssl = true
         request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' =>'application/json'})
         request.body = params.to_json
         http.request(request)
